@@ -43,9 +43,11 @@ def printdesk(desk):
     for i in range(0,8):
         print(desk[(8*i):(8*i+8)])
     pass
+#   figure(number): [   colour, fig]
+#                       0,      1
 def figure(number):
-    colour = number // 10
     fig = number % 10
+    colour = number // 10
     return [colour, fig]
 def figure_out(number):
     if (figure(number)[0] == 0) and (figure(number)[1] == 0):
@@ -80,6 +82,13 @@ def toxy(pos):
     # x - горизонталь
     # y - вертикаль
     return [pos // 8, pos % 8]
+#get list of w/b figures
+def getwbfl(color, desk):
+    wbfl=[]
+    for i in range(0, len(desk)):
+        if (desk[i] != 0) and (figure(desk[i])[0] == color):
+            wbfl += [[desk[i], i]]
+    return wbfl
 def shiftmove(pos1, pos2):
     hor = abs(toxy(pos1)[0]  - toxy(pos2)[0])
     ver = abs(toxy(pos1)[1]  - toxy(pos2)[1])
@@ -164,7 +173,8 @@ def hod6(pos1, pos2):
 #    else:
 #        print([pos1, pos2], abs(pos1 - pos2))
     return [move, pos1, pos2]
-### The allowed moves of figures
+### The allowed moves of figures: [move1, move2...]
+### without check, mate and other figures
 def allowedmoves2(fig, pos):
     almoves = []
     mv = figure(fig)[1]
@@ -174,8 +184,6 @@ def allowedmoves2(fig, pos):
         pn = hod2
     elif (mv ==3):
         pn = hod3
-    elif (mv ==3):
-        pn = hod3
     elif (mv ==4) or (mv==8):
         pn = hod4
     elif (mv ==5):
@@ -183,10 +191,33 @@ def allowedmoves2(fig, pos):
     elif (mv ==6) or (mv==7):
         pn = hod6
     for i in range(0,64):
-        am = pn(pos, i)
+        if (mv==1):
+            am = pn(fig,pos, i)
+        else:
+            am = pn(pos, i)
         if (am[0] == 1):
             almoves+=[am[2]]
     return almoves
+def allowedmoves3(fig, pos, desk):
+    wbfl= getwbfl(figure(fig)[0],desk)
+    almo1 = allowedmoves2(fig, pos)
+    wbfl1=[]
+    if len(wbfl)>1:
+        for i in range(0, len(wbfl)):
+                 wbfl1+=[wbfl[i][1]]
+
+    print("almo1",almo1)
+    print("wbfl1",wbfl1)
+    
+    for i in range(0, len(wbfl1)):
+        #print(wbfl1[i])
+        for ii in range(0, len(almo1)):
+            #print("\t", almo1[ii])
+            if (wbfl1[i] == almo1[ii]):
+                almo1.remove(wbfl1[i])
+                break
+    print("almo1",almo1)
+    return wbfl1
 def main():
     print("\t----")
    # for i in range(0,64):
@@ -197,11 +228,15 @@ def main():
            #if hod1(21, i, ii)[0] == 1:
            #    print("black pawn:\t", i, ii) 
     #   print(i, allowedmoves(11,i))
-    #setdesk(desk)
+    setdesk(desk)
     #printdesk(desk)
     #print("\n")
-    print(allowedmoves2(13,10))
-    print(allowedmoves2(12,10))
+    #print(allowedmoves2(21,10))
+    #print(allowedmoves2(12,10))
+    #print(figure(79))
+    print(getwbfl(1, desk))
+    allowedmoves3(11, 10, desk)
+    #print(getwbfl(2, desk))
     pass
 
 main()
