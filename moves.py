@@ -1,4 +1,3 @@
-#print(socket.gethostname())
 ### 1 - pawn
 ### 2 - knight  +
 ### 3 - bishop  +

@@ -1,4 +1,4 @@
-import moves
+import moves, tower
 
 desk=[i for i in range(0,64)]
 def setdesk(desk):
@@ -206,8 +206,8 @@ def allowedmoves3(fig, pos, desk):
         for i in range(0, len(wbfl)):
                  wbfl1+=[wbfl[i][1]]
 
-    print("almo1",almo1)
-    print("wbfl1",wbfl1)
+    #print("almo1",almo1)
+    #print("wbfl1",wbfl1)
     
     for i in range(0, len(wbfl1)):
         #print(wbfl1[i])
@@ -216,8 +216,8 @@ def allowedmoves3(fig, pos, desk):
             if (wbfl1[i] == almo1[ii]):
                 almo1.remove(wbfl1[i])
                 break
-    print("almo1",almo1)
-    return wbfl1
+    #print("almo1",almo1)
+    return almo1
 def main():
     print("\t----")
    # for i in range(0,64):
@@ -234,8 +234,10 @@ def main():
     #print(allowedmoves2(21,10))
     #print(allowedmoves2(12,10))
     #print(figure(79))
-    print(getwbfl(1, desk))
-    allowedmoves3(11, 10, desk)
+    #print(getwbfl(1, desk))
+    print(allowedmoves3(11, 10, desk))
+    print("thr", tower.shiftmovethr(7))
+    print("smta", tower.smta(18))
     #print(getwbfl(2, desk))
     pass
 
