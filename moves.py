@@ -1,4 +1,3 @@
-#print(socket.gethostname())
 ### 1 - pawn
 ### 2 - knight  +
 ### 3 - bishop  +
@@ -13,3 +12,5 @@
 #   0 - Empty
 #   1 - White
 #   2 - Black
+
+#bishop. p.14
