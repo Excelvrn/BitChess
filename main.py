@@ -1,4 +1,4 @@
-import tower, bishop
+import tower, bishop, queen, king, common
 
 desk=[i for i in range(0,64)]
 def setdesk(desk):
@@ -89,6 +89,48 @@ def getwbfl(color, desk):
         if (desk[i] != 0) and (figure(desk[i])[0] == color):
             wbfl += [[desk[i], i]]
     return wbfl
+# GetCommonFields(lpot, lfig)
+#   lim - The potential moves
+#   lfig - The list of figures
+#   return changed list lpot
+def GetCommonFields(lpot, lfig):
+    k=[]
+    if (len(lfig)>1):
+        if (len(lpot)>1):
+            for ifig in range(0, len(lfig)):
+                for ipot in range(0, len(lpot)):
+                    if (lfig[ifig] == lpot[ipot]):
+                        k+=[lfig[ifig]]
+        elif (len(lpot)==1):
+            for ifig in range(0, len(lfig)):
+                if (lfig[ifig] == lpot[0]):
+                    k+=[lfig[ifig]]
+                    break
+    elif (len(lfig)==1):
+        if (len(lpot)>1):
+            for ipot in range(0, len(lpot)):
+                if (lfig[0] == lpot[ipot]):
+                    k+=[lfig[0]]
+                    break
+        elif (len(lpot)==1):
+            if (lpot[0] == lfig[0]):
+                k+=[lfig[0]]
+    else:
+        k=[lpot]
+    if (len(k)>1):
+        k = sorted(k)
+    return k
+# GetCommonFields(lpot, lfig)
+#   lim - The potential moves
+#   lfig - The list of figures
+#   return modified lpot
+def ModifyPotFields(lpot, lfig):
+    for i in range(len(lpot)):
+        if (len(lpot[i])>1):
+            lpots = sorted(lpot[i])
+        k=GetCommonFields(lpots, lfig)
+        if (len(k)>1):
+            
 def shiftmove(pos1, pos2):
     hor = abs(toxy(pos1)[0]  - toxy(pos2)[0])
     ver = abs(toxy(pos1)[1]  - toxy(pos2)[1])
@@ -218,6 +260,24 @@ def allowedmoves3(fig, pos, desk):
                 break
     #print("almo1",almo1)
     return almo1
+def allowedmoves4(desk, pos):
+    fig = common.GetFigure(desk, pos)
+    cl = common.figure(fig)
+    afl = common.getafl(desk)
+    potmov = []
+    for i in range(0, len(afl)):
+        if (len(afl[i])>1):
+            for i2 in range(0, len(afl[i])):
+                if (afl[i][i2] == pos):
+                    del afl[i][i2]
+    if (cl[1]== moves.FLADJA) or (cl[1]== moves.FLADJAD):
+        potmov = tower.smta(pos)
+    if (cl[0] == moves.WHITE):
+        
+    #else:
+        
+    #print("almo1",almo1)
+    return almo1
 def main():
     print("\t----")
    # for i in range(0,64):
@@ -236,13 +296,15 @@ def main():
     #print(figure(79))
     #print(getwbfl(1, desk))
     print(allowedmoves3(11, 10, desk))
-    print("thr", tower.shiftmovethr(7))
-    print("shiftmovebvl", bishop.shiftmovebvl(1))
-    print("shiftmovebvrd 7", bishop.shiftmovebvrd(7))
-    print("smba 7\t", bishop.smba(7))
-    print("smba 41\t", bishop.smba(41))
-    print("smba 13\t", bishop.smba(13))
-    print("smba 22\t", bishop.smba(22))
+    #print("thr", tower.shiftmovethr(7))
+    #print("shiftmovebvl", bishop.shiftmovebvl(1))
+    #print("shiftmovebvrd 7", bishop.shiftmovebvrd(7))
+    #print("smba 7\t", bishop.smba(7))
+    #print("smba 41\t", bishop.smba(41))
+    #print("smba 13\t", bishop.smba(13))
+    #print("smqa 15\t", queen.smqa(15))
+    #print("smka 15\t", king.smka(15))
+    print("getafl\t", common.getafl(desk))
 
     #print(getwbfl(2, desk))
     pass

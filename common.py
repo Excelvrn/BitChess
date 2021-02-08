@@ -1,4 +1,7 @@
+import moves
+
 DeskSize = 64
+
 def setdesk(desk):
     for i in range(0, 64):
         desk[i] = 0
@@ -105,3 +108,79 @@ def chpmov(pos, x, y):
         pot = 1
     npos = xyp[0]*8 + xyp[1]
     return [pot, xyp[0], xyp[1], npos]
+#get w/b figures`s position list
+def getwbfl(color, desk):
+    wbfl=[]
+    for i in range(0, len(desk)):
+        if (desk[i] != 0) and (figure(desk[i])[0] == color):
+            wbfl += [[desk[i], i]]
+    return wbfl
+    pot = 0
+    xyp = toxy(pos)
+    xyp[0] +=x
+    xyp[1] +=y
+    if (xyp[0]>7) or (xyp[0]<0) or (xyp[1]>7) or (xyp[1]<0):
+        pot = -1
+    else:
+        pot = 1
+    npos = xyp[0]*8 + xyp[1]
+    return [pot, xyp[0], xyp[1], npos]
+#get all figures`s position list
+# [ [white], [black] ]
+def getafl(desk):
+    wl=[]
+    bl=[]
+    for i in range(0, len(desk)):
+        if (desk[i] != moves.DEMPTY) and (figure(desk[i])[0] == moves.WHITE):
+            wl += [i]
+    for i in range(0, len(desk)):
+        if (desk[i] != moves.DEMPTY) and (figure(desk[i])[0] == moves.BLACK):
+            bl += [i]
+    afl=[wl, bl]
+    return afl
+def GetFigure(desk, pos):
+    return desk[pos]
+#return equal position of the two lists
+# lpot - potential moves` list
+# lequ - equal elements` list
+def GetFirstEqual(lpot, lequ):
+    position = -1
+    equalpos = -1
+    nl = []
+        if (len(lpot)>1):
+            for ilpot in range(0, len(lpot)):
+                if (k>=0):
+                    break
+                if (len(lequ)>1):
+                    for ilequ in range(0, len(lequ)):
+                        if (lpot[ilpot] == lequ[ilequ]):
+                            k = ilpot
+                            break
+                elif (len(lequ)==1):
+                    if (lpot[ilpot] == lequ[0]):
+                        k = ilpot
+                        break
+                elif (len(lequ)==0):
+                    nl = [lpot]
+            if (k>=0):
+                nl = lpot[0:k]
+        elif (len(lpot)==1):
+            if (len(lequ)>1):
+                for ilequ in range(0, len(lequ)):
+                    if (lpot[0] == lequ[ilequ]):
+                        k = 0
+                        break
+                elif (len(lequ)==1):
+                    if (lpot[0] == lequ[0]):
+                        k = 0
+                        break
+                #elif (len(lequ)==0):
+                    #nl = [lpot]
+                if (k>=0):
+                    nl = [lpot[0]]
+    return nl
+            
+                            
+                            
+            
+            
